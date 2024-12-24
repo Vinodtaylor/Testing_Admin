@@ -89,7 +89,7 @@ const Doctors = () => {
 
             {/* Doctors List */}
             {filteredData.length === 0 ? (
-                <p className="text-center text-lg text-gray-500">No doctors found matching your query.</p>
+                <p className="text-center text-lg text-gray-500">No doctors found .</p>
             ) : (
                 <Table className="table-auto w-full border border-gray-200 rounded-md overflow-hidden shadow-md">
                     <TableHeader>
@@ -108,7 +108,7 @@ const Doctors = () => {
                                 {/* Calculate Serial No based on currentPage and index */}
                                 <TableCell className="px-4 py-3">{indexOfFirstDoctor + index + 1}</TableCell>
                                 <TableCell className="px-4 py-3">
-                                    <Image src={doc.doctor_image} alt={doc.name} title={doc.name} width={40} height={40} />
+                                    <Image src={doc.doctor_image} alt={doc.name} title={doc.name} width={40} height={40}  priority/>
                                 </TableCell>
                                 <TableCell className="px-4 py-3">{doc.name}</TableCell>
                                 <TableCell className="px-4 py-3">{doc.doctor_id}</TableCell>

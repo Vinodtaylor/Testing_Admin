@@ -34,10 +34,10 @@ const Navbar: React.FC = () => {
       logo: logo,
       Navlinks: [
         { link: "/", name: "Home" },
-        { link: "/aboutus", name: "About" },
+        // { link: "/aboutus", name: "About" },
 
-        { link: "/services", name: "Services" },
-        { link: "/doctors", name: "Doctors" },
+        // { link: "/services", name: "Services" },
+        // { link: "/doctors", name: "Doctors" },
         // { link: "/hospitals", name: "Hospitals" },
         // { link: "/departments", name: "Departments" },
         { link: "/regions", name: "Regions" },
