@@ -44,7 +44,6 @@ const Testimonials: React.FC = () => {
   const [youtubeVideoId, setYoutubeVideoId] = useState<string | null>(null);
 
   const tableHeaders = [
-    "SNO",
     "Title",
     "Description",
     "Date",
@@ -177,7 +176,6 @@ const Testimonials: React.FC = () => {
           <TableBody>
             {data.map((d, index) => (
               <TableRow key={d._id} className={`text-gray-700 hover:bg-gray-50 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
-                <TableCell className="px-4 py-3 text-center border-b border-gray-200">{index + 1}</TableCell>
                 <TableCell className="px-4 py-3 text-center r whitespace-nowrap border-b border-gray-200">{d.title}</TableCell>
                 <TableCell className="px-4 py-3 text-center  border-b border-gray-200">
                 <p className="text-left whitespace-nowrap">

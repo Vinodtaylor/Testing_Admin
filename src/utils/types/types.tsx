@@ -17,6 +17,17 @@ export interface getChooseus {
 }
 
 
+  export interface HomeBanner{
+    _id?:string
+    image:string,
+    link:string
+  }
+
+  // export interface HomeBannerContent{
+    
+  //   banner:HomeBanner[]
+  // }
+
 
 export interface FAQ {
     faq_question:string,

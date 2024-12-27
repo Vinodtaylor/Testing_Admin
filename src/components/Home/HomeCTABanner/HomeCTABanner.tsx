@@ -23,6 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import compressImage from "@/utils/imageConversion/ConvertImage";
 
 const HomeCTABanner = () => {
   const [data, setData] = useState<HomeCTABannerImage[]>([]);
@@ -113,17 +114,21 @@ const HomeCTABanner = () => {
   };
   
 
-
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl); // Set preview
-      setFormData((prev) => ({ ...prev, home_page_banner: file })); 
+      try {
+        const uploadedImage = await compressImage(file);
+        const imageUrl = URL.createObjectURL(uploadedImage);
+        setImagePreview(imageUrl);
+  
+        setFormData((prev) => ({ ...prev, home_page_banner: uploadedImage }));
+      } catch (error) {
+        console.error("Error compressing the image:", error);
+      }
     }
   };
-
+  
   return (
     <>
       <div className="mb-6">
