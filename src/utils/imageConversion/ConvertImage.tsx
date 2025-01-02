@@ -5,7 +5,7 @@ async function compressImage(file: File): Promise<File> {
     maxSizeMB: 1, 
     maxWidthOrHeight: 1024, 
     useWebWorker: true, 
-    fileType: "webp", // Force output to WebP format
+    fileType: "image/png", 
     onProgress: (progress: number) => console.log(`Compression Progress: ${progress}%`),
   };
 
@@ -14,7 +14,7 @@ async function compressImage(file: File): Promise<File> {
     console.log(`Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
     console.log(`Type: ${file.type}`);
     
-    const start = performance.now(); // Start timing
+    const start = performance.now(); 
 
     const compressedFile = await imageCompression(file, options);
 

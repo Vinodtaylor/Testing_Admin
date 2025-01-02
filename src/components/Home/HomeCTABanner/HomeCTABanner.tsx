@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { CreateCTABanner, DeleteCTABanner, getCtABanner, updateCTABanner } from "@/Routes/Routes";
@@ -74,13 +75,24 @@ const HomeCTABanner = () => {
 
 
   const handleConfirmAction = async () => {
-    const formDataObj = new FormData(); 
+    const formDataObj = new FormData();
+  
+    // Check if home_page_banner is a valid value and handle file appending
+    if (formData.home_page_banner) {
+      const banner = formData.home_page_banner;
+      if (banner instanceof Blob) {
+        const file = new File([banner], banner.name || "uploaded_image.png", { type: banner.type });
+        formDataObj.append("home_page_banner", file);
+      } else if (banner as any instanceof File) {
+        formDataObj.append("home_page_banner", banner);
+      }
+    }
   
     if (mode === "delete" && selectedItem) {
       // Delete action
-      await DeleteCTABanner(selectedItem._id!); 
+      await DeleteCTABanner(selectedItem._id!);
       console.log("Deleting item:", selectedItem);
-        setData((prevData) => prevData.filter(item => item._id !== selectedItem._id));
+      setData((prevData) => prevData.filter(item => item._id !== selectedItem._id));
   
       const res = await getCtABanner();
       setData(res.data);
@@ -105,13 +117,13 @@ const HomeCTABanner = () => {
   
       await CreateCTABanner(formDataObj);
   
-      
       const res = await getCtABanner();
       setData(res.data);
     }
   
     setOpen(false);
   };
+  
   
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

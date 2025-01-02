@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import compressImage from "@/utils/imageConversion/ConvertImage";
 
 const RegionsTable = () => {
   const [data, setData] = useState<Regions[]>([]);
@@ -35,17 +36,20 @@ const RegionsTable = () => {
 
   const [Regionoptions,setRegionoptions]=useState<Regions[]>([])
   
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await getAllRegion();
 
-        setData(res.data);
-        setRegionoptions(res.data)
-      } catch (e) {
-        console.error("Error fetching regions:", e);
-      }
-    };
+  const getData = async () => {
+    try {
+      const res = await getAllRegion();
+
+      setData(res.data);
+      setRegionoptions(res.data)
+    } catch (e) {
+      console.error("Error fetching regions:", e);
+    }
+  };
+
+  useEffect(() => {
+  
 
     getData();
   }, []);
@@ -59,6 +63,7 @@ const RegionsTable = () => {
       try {
         await DeleteRegion(deletingRegion._id!);
         setData(data.filter((region) => region._id !== deletingRegion._id));
+        getData()
         setDeletingRegion(null);
       } catch (e) {
         console.error("Error deleting region:", e);
@@ -74,7 +79,7 @@ const RegionsTable = () => {
       region_name: region?.region_name,
       region_image: region.region_image,
 
-      nearby_region:region?.nearby_region?.region_name
+      nearby_region:region?.nearby_region?._id || ""
     });
     setImagePreview(region.region_image);
     setModalOpen(true);
@@ -92,15 +97,20 @@ const RegionsTable = () => {
     setModalOpen(true);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
+
     if (file) {
+
+const compressedFile=await compressImage(file)
+
       const reader = new FileReader();
       reader.onload = () => {
         setImagePreview(reader.result as string);
         setFormValues({ ...formValues, region_image: reader.result as string });
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     }
   };
 
@@ -135,6 +145,10 @@ const RegionsTable = () => {
             ? { ...region, region_name: formValues.region_name, region_image: formValues.region_image }
             : region
         ));
+
+
+        getData()
+        
       } else {
 
         console.log("FormData entries:");
@@ -147,6 +161,9 @@ const RegionsTable = () => {
         // If creating a new region
         response = await createRegion(formData);
         setData([...data, response.data]);
+
+        getData()
+
       }
 
 

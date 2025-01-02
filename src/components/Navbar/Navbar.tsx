@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { LogOut, X } from "lucide-react";
-import logo from "../../../public/logo.png";
+import logo from "../../../public/hod_logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   AlertDialog,
