@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { LogOut, X } from "lucide-react";
-import logo from "../../../../public/hod_logo.png";
+import logo from "../../../public/hod_logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   AlertDialog,
@@ -35,7 +35,8 @@ const Navbar: React.FC = () => {
       logo: logo,
       Navlinks: [
         { link: "/", name: "Home" },
-        { link: "/Regions", name: "Doctors" },
+        { link: "/regions", name: "Regions" },
+        { link: "/doctors", name: "Doctors" },
         // { link: "/hospitals", name: "Hospitals" },
         // { link: "/departments", name: "Departments" },
 
@@ -69,7 +70,7 @@ const Navbar: React.FC = () => {
       <div className="flex   shadow-md  mb-4 items-center justify-between p-4">
         <Link href="/">
           <Image
-            src={navData[0].logo}
+            src={logo}
             alt="Logo"
             className="w-[150px] h-[68px] object-contain"
           />
