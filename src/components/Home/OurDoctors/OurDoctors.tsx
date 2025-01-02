@@ -321,7 +321,10 @@
 
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => setOpen(false)} className="w-full rounded-full">Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleConfirmAction} className="w-full rounded-full">
+              <AlertDialogAction onClick={handleConfirmAction} 
+                          className="flex whitespace-nowrap items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white shadow-md transition-all duration-200 border border-blue-600"
+
+              >
                 {IsEditMode? "Update" : "Create"}
               </AlertDialogAction>
             </AlertDialogFooter>
