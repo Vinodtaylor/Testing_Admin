@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React, { useState, useRef, useEffect } from "react";
@@ -7,18 +8,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { LogOut, X } from "lucide-react";
 import logo from "../../../public/hod_logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 import { usePathname } from "next/navigation";
+import { Logout } from "@/Routes/Routes";
+import { signOut, useSession } from "next-auth/react";
+import Cookies from "js-cookie"; 
 
 
 
@@ -26,8 +19,15 @@ const Navbar: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [show, setShow] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+
   const path=usePathname()
   
+
+
+
+
 
 
   const navData = [
@@ -64,6 +64,34 @@ const Navbar: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+
+  const handleLogout = async () => {
+    try {
+      await Logout();
+  
+      await signOut({
+        redirect: false,
+      });
+      Cookies.remove("next-auth.session-token", { path: "/" });
+      Cookies.remove("next-auth.csrf-token", { path: "/" });
+      Cookies.remove("next-auth.callback-url", { path: "/" });
+      
+      setIsLoggedOut(true);
+
+    } catch (e:any) {
+      console.error("Logout error:", e.response?.data?.message );
+    }
+  };
+
+
+  useEffect(() => {
+    if (isLoggedOut && typeof window !== 'undefined') {
+      // Redirect after logout is complete, ensuring it's only done client-side
+      window.location.href = "/signin";
+
+    }
+  }, [isLoggedOut]);
 
   return (
     <div>
@@ -114,8 +142,8 @@ const Navbar: React.FC = () => {
               className="w-14 h-14 cursor-pointer"
               onClick={handleDropdownToggle}
             >
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>Vinod</AvatarFallback>
+               <AvatarImage src={session?.user?.admin_photo} />
+               <AvatarFallback>{session?.user.name}</AvatarFallback>
             </Avatar>
 
             {show && (
@@ -127,38 +155,28 @@ const Navbar: React.FC = () => {
               className="w-14 h-14 cursor-pointer"
               onClick={handleDropdownToggle}
             >
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>Vinod</AvatarFallback>
+               <AvatarImage src={session?.user?.admin_photo} />
+               <AvatarFallback>{session?.user.name}</AvatarFallback>
             </Avatar>
 
             <div className="">
               <p className="text-xs font-normal">Logged in as </p>
-              <h1 className="text-sm font-semibold">Master Admin</h1>
+              <h1 className="text-sm font-semibold">{session?.user.role}</h1>
             </div>
                 </div>
                   <li
                   >
 
-                   <AlertDialog>
-  <AlertDialogTrigger 
-  
-  className="p-2 flex items-center text-base gap-2  cursor-pointer text-red-500"
 
-  >                   <LogOut size={15}/> Logout
-  </AlertDialogTrigger >
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-      <AlertDialogDescription>
-        Are you sure you want to log out? You will need to sign in again to access your account.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel className="rounded-full ">Cancel</AlertDialogCancel>
-      <AlertDialogAction className="rounded-full bg-[#03318A] shadow-md hover:bg-[#03318A]">Logout</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
+<div   className="p-2 flex items-center text-base gap-2  cursor-pointer text-red-500"
+                    onClick={handleLogout}
+                    >
+                                            <LogOut size={15}/> Logout
+
+                      
+                    </div>
+
+  
                   </li>
 
                  
@@ -215,11 +233,6 @@ const Navbar: React.FC = () => {
 
            
 
-          <AlertDialog >
-  <AlertDialogTrigger 
-  
-className="outline-none"
-  >      
 
    <div className="relative  mt-16" ref={dropdownRef}               onClick={handleDropdownToggle}
             >
@@ -229,16 +242,20 @@ className="outline-none"
               className="w-14 h-14 cursor-pointer"
               onClick={handleDropdownToggle}
             >
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>Vinod</AvatarFallback>
+              <AvatarImage src={session?.user?.admin_photo} />
+              <AvatarFallback>{session?.user?.name}</AvatarFallback>
             </Avatar>
 
 <div className="flex flex-col">
-<p className="font-semibold text-sm">Master Admin</p>
-            <p   className=" flex text-sm items-center gap-1  cursor-pointer text-red-500"
+<p className="font-semibold text-sm">{session?.user.name}</p>
+
+<div className="" onClick={handleLogout}>
+<p   className=" flex text-sm items-center gap-1  cursor-pointer text-red-500"
             >
              <LogOut size={15}/> Logout
             </p>
+</div>
+        
 </div>
             
               </div>
@@ -246,20 +263,7 @@ className="outline-none"
 
            
           </div>           
-  </AlertDialogTrigger >
-  <AlertDialogContent className="max-w-sm rounded-lg">
-    <AlertDialogHeader>
-      <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-      <AlertDialogDescription>
-        Are you sure you want to log out? You will need to sign in again to access your account.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel className="rounded-full ">Cancel</AlertDialogCancel>
-      <AlertDialogAction className="rounded-full bg-[#03318A] shadow-md hover:bg-[#03318A]">Logout</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
+
             
           </div>
         </div>

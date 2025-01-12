@@ -173,3 +173,24 @@ export interface Doctor {
     region_name: string;
     nearby_region:Regions
 }
+
+
+
+export interface  LoginUser{
+  email_id:string,
+  password:string
+}
+
+
+
+
+export interface ResetOTpPassword{
+  email_id:string,
+  otpforgotPassword:string
+}
+
+
+export interface ResetNewPassword{
+  password:string,
+  token:string
+}

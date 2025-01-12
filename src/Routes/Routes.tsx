@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HomeService, OurDoctor, Testimonail } from "@/utils/types/types";
+import { HomeService, LoginUser, OurDoctor, ResetNewPassword, ResetOTpPassword, Testimonail } from "@/utils/types/types";
 import { axiosInstance } from "./axios";
 
 
@@ -594,9 +594,77 @@ export interface Regiondata{
     }
   }
   
-  
-  
-  
-  
-  
 
+  export const Logout = async () => {
+    try {
+      const res = await axiosInstance.post(`/admin_logout`, {},
+        {withCredentials:true}
+      );
+  
+   
+  
+      return res.data;
+    } catch (e) {
+      handleError(e, "Failed to Login");
+    }
+  };
+  
+  export const Login = async (data:LoginUser) => {
+    try {
+      const res = await axiosInstance.post(`/admin/login`,data,
+        {withCredentials:true}
+      );
+  
+      console.log(res,"Signed IN")
+      return res.data;
+    } catch (e) {
+      handleError(e, "Failed to Login");
+    }
+  };
+  
+  export const SendResetEmail = async ({ email_id }: { email_id: string })  => {
+    try {
+      const res = await axiosInstance.post(`/admin/forgotpasswordemailverify`, {email_id},
+        {withCredentials:true}
+      );
+  
+      console.log(res,"Signed IN")
+      return res.data;
+    } catch (e) {
+      handleError(e, "Failed to Send Email");
+    }
+  };
+  
+  
+  export const  VerifyOTP = async (data:ResetOTpPassword) => {
+    try {
+      const res = await axiosInstance.post(`/admin/forgotpasswordotpverify`,data,
+        {withCredentials:true}
+      );
+  
+      console.log(res,"Signed IN")
+      return res.data;
+    } catch (e) {
+      handleError(e, "Failed to Verify OTP");
+    }
+  };
+  
+  export const ResetPassword = async (data: ResetNewPassword, token: string) => {
+    try {
+      const res = await axiosInstance.post(
+        `/admin/forgotpasswordotpset`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          withCredentials: true,
+        }
+      );
+  
+      console.log(res, "Password Reset Successfully");
+      return res.data;
+    } catch (e) {
+      handleError(e, "Failed to Reset Password");
+    }
+  };
