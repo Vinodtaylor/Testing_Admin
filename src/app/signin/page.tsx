@@ -430,13 +430,12 @@ setresetPasswordToken(res.token)
                       className="w-full placeholder:text-sm px-4 py-2 mt-2 border rounded-lg outline-none shadow-md"
                       placeholder="Enter your password"
                     />
-                    <button
-                      type="button"
+                    <span
                       onClick={togglePasswordVisibility}
                       className="absolute justify-center mt-2 inset-y-0 right-4 flex items-center text-gray-500"
                     >
                       {passwordVisible ? <Eye /> : <EyeOff />}
-                    </button>
+                    </span>
                   </div>
 
                   <p
