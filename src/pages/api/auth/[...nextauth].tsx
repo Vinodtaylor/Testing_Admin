@@ -128,10 +128,11 @@ export const authOptions: AuthOptions = {
       options: {
         httpOnly: true,
         path: "/",
-        secure:true
-        // sameSite: 'None',
-              },
-    },
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: 'None', 
+      },
+    }
+    
   },
   debug: true,  
 };
