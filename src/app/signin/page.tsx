@@ -255,7 +255,6 @@ setresetPasswordToken(res.token)
                     className="flex justify-center gap-4 outline-none"
                     aria-label="OTP Input"
                   >
-                    {/* Group 1 */}
                     <InputOTPGroup className="flex gap-2 outline-none">
                       {[...Array(3)].map((_, index) => (
                         <InputOTPSlot
@@ -266,12 +265,10 @@ setresetPasswordToken(res.token)
                       ))}
                     </InputOTPGroup>
         
-                    {/* Separator */}
                     <InputOTPSeparator className="text-lg font-bold mx-2 text-gray-500">
                       -
                     </InputOTPSeparator>
         
-                    {/* Group 2 */}
                     <InputOTPGroup className="flex gap-2">
                       {[...Array(3)].map((_, index) => (
                         <InputOTPSlot
@@ -286,7 +283,6 @@ setresetPasswordToken(res.token)
 
               </div>
         
-              {/* Back Button */}
               <div className="flex justify-end mb-4">
                 <button
                   type="button"
@@ -431,7 +427,6 @@ setresetPasswordToken(res.token)
                       onChange={(e) =>
                         SetLogin((prev) => ({ ...prev, password: e.target.value }))
                       }
-
                       className="w-full placeholder:text-sm px-4 py-2 mt-2 border rounded-lg outline-none shadow-md"
                       placeholder="Enter your password"
                     />
@@ -444,13 +439,12 @@ setresetPasswordToken(res.token)
                     </button>
                   </div>
 
-                  <button
-                    type="button"
+                  <p
                     onClick={handleForgotPasswordClick}
                     className="text-base text-blue-500 font-medium hover:underline mt-2 block text-right"
                   >
                     Forgot password?
-                  </button>
+                  </p>
                 </div>
                 <button
                   type="submit"
