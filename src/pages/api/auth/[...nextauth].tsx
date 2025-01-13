@@ -128,6 +128,7 @@ export const authOptions: AuthOptions = {
       options: {
         httpOnly: true,
         path: "/",
+        secure:true
         // sameSite: 'None',
               },
     },
