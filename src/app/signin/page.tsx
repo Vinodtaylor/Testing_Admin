@@ -321,23 +321,34 @@ setresetPasswordToken(res.token)
       case ForgotPasswordSteps.RESET_PASSWORD:
         return (
           <form>
-            <div className="mb-4">
+           <div className="mb-4">
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-[#000000]"
               >
                 New Password <span className="text-red-600">*</span>
               </label>
-              <input
-                type="password"
-                value={password}
+          
+          
+<div className="relative">
+                    <input
+                      type={passwordVisible ? 'text' : 'password'}
+                      id="password"
+                      value={password}
 
-                onChange={(e) => setpassword(e.target.value)}
-
-                id="password"
-                className="w-full placeholder:text-sm px-4 py-2 mt-2 border rounded-lg outline-none shadow-md"
-                placeholder="Enter your new password"
-              />
+                      onChange={(e) => setpassword(e.target.value)}
+    
+                      className="w-full placeholder:text-sm px-4 py-2 mt-2 border rounded-lg outline-none shadow-md"
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute justify-center mt-2 inset-y-0 right-4 flex items-center text-gray-500"
+                    >
+                      {passwordVisible ? <Eye /> : <EyeOff />}
+                    </button>
+                  </div>
 
             </div>
 
